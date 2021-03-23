@@ -75,7 +75,7 @@ byte b_read(Adress adr) {
 }
 
 void w_write(Adress adr, word w) {
-    assert(a % 2 == 0);
+    assert(adr % 2 == 0);
     mem[adr] = (byte)(w & 0xFF);
     mem[adr + 1] = (byte)((w >> 8) & 0xFF);
 }
