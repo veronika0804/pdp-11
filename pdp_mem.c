@@ -1,15 +1,18 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-
+#include <stdarg.h>
 
 typedef unsigned char byte;
 typedef unsigned int word;
 typedef word Adress;
 
 #define MEMSIZE (64*1024)
+#define ODATA 0177566
+#define OSTAT 0177564
 
 byte mem[MEMSIZE];
+byte trac;
 
 void b_write(Adress adr, byte b);
 byte b_read(Adress adr);
@@ -17,6 +20,16 @@ void w_write(Adress adr, word w);
 word w_read(Adress adr);
 void load_file(const char* filename);
 void mem_dump(Adress start, word n);
+
+void trace(const char* format, ...){
+    if(trac == 1 || trac == 2) {
+        va_list ap;
+        va_start(ap, format);
+        vprintf(format, ap);
+        va_end(ap);
+    }
+}
+
 
 
 void test_mem() {
@@ -31,7 +44,6 @@ void test_mem() {
     word w1 = 0x0a0b;
     w_write(0, w1);
     word wres1 = w_read(0);
-    //trace("%04hx = %04hx\n", w1, wres);
     assert(wres1 == w1);
 
     //пишем 2 байта, читаем слово
@@ -69,15 +81,18 @@ word w_read(Adress a) {
 }
 void b_write(Adress adr, byte b) {
     mem[adr]=b;
+    if (adr == ODATA)
+        printf("%c", b);
 }
 byte b_read(Adress adr) {
     return mem[adr];
 }
 
 void w_write(Adress adr, word w) {
-    assert(adr % 2 == 0);
     mem[adr] = (byte)(w & 0xFF);
     mem[adr + 1] = (byte)((w >> 8) & 0xFF);
+    if (adr == ODATA)
+        printf("%c", w);
 }
 
 void load_file(const char* filename) {
