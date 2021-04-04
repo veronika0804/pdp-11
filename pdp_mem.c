@@ -2,24 +2,12 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include "pdp11.h"
 
-typedef unsigned char byte;
-typedef unsigned int word;
-typedef word Adress;
 
-#define MEMSIZE (64*1024)
-#define ODATA 0177566
-#define OSTAT 0177564
-
-byte mem[MEMSIZE];
+byte mem[MEM_SIZE];
 byte trac;
 
-void b_write(Adress adr, byte b);
-byte b_read(Adress adr);
-void w_write(Adress adr, word w);
-word w_read(Adress adr);
-void load_file(const char* filename);
-void mem_dump(Adress start, word n);
 
 void trace(const char* format, ...){
     if(trac == 1 || trac == 2) {
@@ -29,8 +17,6 @@ void trace(const char* format, ...){
         va_end(ap);
     }
 }
-
-
 
 void test_mem() {
     //пишем байт, читаем байт
