@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+D:/pdp11/pdp11.h
+
+D:/pdp11/pdp_mem.c
+stdio.h
+-
+assert.h
+-
+stdlib.h
+-
+stdarg.h
+-
+pdp11.h
+D:/pdp11/pdp11.h
+
+D:/pdp11/pdp_run.c
+stdio.h
+-
+stdlib.h
+-
+pdp11.h
+D:/pdp11/pdp11.h
+
