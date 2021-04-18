@@ -15,3 +15,9 @@ byte b_read(Adress adr);
 void w_write(Adress adr, word w);
 word w_read(Adress adr);
 void mem_dump(Adress start, word n);
+
+typedef struct {
+    word val; //значение аргумента
+    word adr;//адрес аргумента
+    byte type;
+} Arg;
