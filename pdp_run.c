@@ -6,8 +6,15 @@ word reg[8];
 byte b;
 Arg ss, dd;
 
+void print_regs() {
+    for (int i= 0; i < 8; i++)
+        trace("R%o = %06o\n", i, reg[i]);
+    trace("\n");
+}
+
 void do_halt() {
     printf("THE END!!!\n");
+    print_regs();
     exit(0);
 }
 void do_mov() {
@@ -22,6 +29,7 @@ typedef struct {
     char * name;
     void (*do_func)(void);
 } Command;
+
 Command cmd[] = {
         {0170000, 0010000, "mov", do_mov},
         {0170000, 0060000, "add", do_add},
@@ -91,7 +99,7 @@ void run() {
         }
         else if ((w & 0170000) == 0010000) { //01SSDD
             trace("mov ");
-            ss = get_mr();
+            ss = get_mr(w >> 6);
             dd = get_mr(w);
             do_mov();
         }
