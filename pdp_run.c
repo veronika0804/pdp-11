@@ -27,7 +27,7 @@ void do_mov(word w) {
         if (b == 0)
             w_write(dd.adr, ss.val);
         else
-            b_write(dd.adr, (byte)(ss.val & 255));
+            b_write(dd.adr, (byte)(ss.val & 0xFF));
 }
 void do_add(word w) {
     b = (w >> 15) & 1;
