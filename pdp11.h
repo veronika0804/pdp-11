@@ -21,3 +21,10 @@ typedef struct {
     word adr;//адрес аргумента
     byte type;
 } Arg;
+
+
+void run();
+void do_add(word w);
+void do_mov(word w);
+void do_halt();
+void print_regs();
