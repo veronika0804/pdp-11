@@ -41,7 +41,9 @@ void do_add(word w) {
         else
             b_write(dd.adr, dd.val + ss.val);
 }
-void do_nothing();
+void do_nothing(word w) {
+    trace("\n");
+}
 
 typedef struct {
     word mask;
@@ -54,6 +56,7 @@ Command cmd[] = {
         {0170000, 0010000, "mov", do_mov},
         {0170000, 0060000, "add", do_add},
         {0177777, 0000000, "halt", do_halt},
+        {0177777, 0177777, "nothing", do_nothing}
 };
 
 Arg get_mr(word w) {
