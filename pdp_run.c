@@ -17,8 +17,17 @@ void do_halt() {
     print_regs();
     exit(0);
 }
-void do_mov() {
-    w_write(dd.adr, ss.val);
+void do_mov(word w) {
+    b = (w >> 15) & 1;
+    ss = get_mr(w >> 6);
+    dd = get_mr(w);
+    if (dd.type == 0)
+        reg[dd.adr] = ss.val;
+    else
+        if (b == 0)
+            w_write(dd.adr, ss.val);
+        else
+            b_write(dd.adr, (byte)(ss.val & 255));
 }
 void do_add(word w) {
     b = (w >> 15) & 1;
