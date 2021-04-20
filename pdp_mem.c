@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <string.h>
 #include "pdp11.h"
 
 
@@ -54,11 +55,6 @@ void test_mem() {
 
 }
 
-int main() {
-    test_mem();
-    return 0;
-}
-
 word w_read(Adress a) {
     word w = ((word)mem[a+1]) << 8;
     //printf("w = %x\n", w);
@@ -106,4 +102,25 @@ void mem_dump(Adress start, word n) {
     for (i = 0; i <= n; i += 2) {
         printf("%06o : %06o\n", start + i , w_read(start + i));
     }
+}
+
+int main(int argc, char** argv) {
+    if (argc == 1) {
+        printf("Трассировка -t -T \n");
+        return 0;
+    }
+    test_mem();
+    if (!strcmp(argv[1], "-t")) {
+        trac = 1;
+        load_file(argv[2]);
+    }
+    else if (!strcmp(argv[1], "-T")) {
+        trac = 2;
+        load_file(argv[2]);
+    }
+    else {
+        load_file(argv[1]);
+    }
+    run();
+    return 0;
 }
