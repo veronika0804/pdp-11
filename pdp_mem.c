@@ -6,9 +6,6 @@
 #include "pdp11.h"
 
 
-byte mem[MEM_SIZE];
-byte trac;
-
 
 void trace(const char* format, ...){
     if(trac == 1 || trac == 2) {
