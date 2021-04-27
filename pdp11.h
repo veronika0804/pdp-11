@@ -3,6 +3,8 @@ typedef	unsigned short int word;
 typedef word Adress;
 
 #define MEM_SIZE (64*1024)
+byte mem[MEM_SIZE];
+byte trac;
 #define pc reg[7]
 #define sp reg[6]
 #define ODATA 0177566
