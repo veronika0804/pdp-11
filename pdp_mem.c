@@ -7,7 +7,7 @@
 
 
 
-void trace(const char* format, ...){
+void trace(const char* format, ...) {
     if(trac == 1 || trac == 2) {
         va_list ap;
         va_start(ap, format);
@@ -75,29 +75,24 @@ void w_write(Adress adr, word w) {
 }
 
 void load_file(const char* filename) {
-    unsigned int a, n, c;
+    Adress a, n;
+    byte b, c;
     FILE* input_file;
     input_file = fopen(filename, "r");
-    if (input_file == NULL) {
-        perror(filename);
-        exit(1);
-    }
-    int i = 0;
-    while (fscanf(input_file, "%x %x", &a, &n) == 2) {
-        for (i = 0; i < n; i++) {
-            fscanf(input_file, "%x", &c);
-            b_write(a + i, c);
+    while (fscanf(input_file, "%hx %hx", &a, &n) == 2) {
+        for (Adress i = 0; i < n; i++) {
+            fscanf(input_file, "%hhx", &c);
+            b = c & 0xFF;
+            b_write(a + i, b);
         }
     }
 
-    mem_dump(01000, n);
     fclose(input_file);
 }
 
 void mem_dump(Adress start, word n) {
-    int i = 0;
-    for (i = 0; i <= n; i += 2) {
-        printf("%06o : %06o\n", start + i , w_read(start + i));
+    for (Adress i = 0; i <= n; i += 2) {
+        trace("%06o : %06o\n", start + i * 2 , w_read(start + i*2));
     }
 }
 
