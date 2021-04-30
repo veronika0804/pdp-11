@@ -34,15 +34,14 @@ void test_mem() {
     assert(wres1 == w1);
 
     //пишем 2 байта, читаем слово
-    Adress a = 4;
     byte b1 = 0x0b;
     b0 = 0x0a;
     word w = 0x0b0a;
-    b_write(a, b0);
-    b_write(a + 1, b1);
-    word wres2 = w_read(a);
-    printf("ww/br \t %04hx=%02hhx%02hhx\n", wres2, b1, b0);
-    assert(w == wres2);
+    b_write(0, b0);
+    b_write(1, b1);
+    word wres2 = w_read(0);
+    printf("ww/br \t %04hx=%02hhx%02hhx\n", b1, b0, wres2);
+    assert(wres2 == w);
 
     //пишем слово, читаем 2 байта
     word w0 = 0x0a0b;
