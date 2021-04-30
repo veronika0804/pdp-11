@@ -3,8 +3,9 @@ typedef	unsigned short int word;
 typedef word Adress;
 
 #define MEM_SIZE (64*1024)
-byte mem[MEM_SIZE];
-byte trac;
+extern byte mem[MEM_SIZE];
+extern word reg[8];
+extern byte trac;
 #define pc reg[7]
 #define sp reg[6]
 #define ODATA 0177566
@@ -16,17 +17,5 @@ void b_write(Adress adr, byte b);
 byte b_read(Adress adr);
 void w_write(Adress adr, word w);
 word w_read(Adress adr);
+void load_file(const char* filename);
 void mem_dump(Adress start, word n);
-
-typedef struct {
-    word val; //значение аргумента
-    word adr;//адрес аргумента
-    byte type;
-} Arg;
-
-
-void run();
-void do_add(word w);
-void do_mov(word w);
-void do_halt();
-void print_regs();

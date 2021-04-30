@@ -82,9 +82,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="D:/pdp11/accert.c">
-			<Option target="pdp11"/>
-		</Unit>
 		<Unit filename="D:/pdp11/pdp11.h">
 			<Option target="pdp11"/>
 		</Unit>

@@ -1,5 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/pdp11.dir/accert.c.obj"
   "CMakeFiles/pdp11.dir/pdp_mem.c.obj"
   "CMakeFiles/pdp11.dir/pdp_run.c.obj"
   "pdp11.exe"

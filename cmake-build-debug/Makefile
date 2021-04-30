@@ -127,33 +127,6 @@ pdp11\fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\pdp11.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pdp11.dir\build
 .PHONY : pdp11\fast
 
-accert.obj: accert.c.obj
-
-.PHONY : accert.obj
-
-# target to build an object file
-accert.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\pdp11.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pdp11.dir\accert.c.obj
-.PHONY : accert.c.obj
-
-accert.i: accert.c.i
-
-.PHONY : accert.i
-
-# target to preprocess a source file
-accert.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\pdp11.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pdp11.dir\accert.c.i
-.PHONY : accert.c.i
-
-accert.s: accert.c.s
-
-.PHONY : accert.s
-
-# target to generate assembly for a file
-accert.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\pdp11.dir\build.make /nologo -$(MAKEFLAGS) CMakeFiles\pdp11.dir\accert.c.s
-.PHONY : accert.c.s
-
 pdp_mem.obj: pdp_mem.c.obj
 
 .PHONY : pdp_mem.obj
@@ -217,9 +190,6 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... pdp11
-	@echo ... accert.obj
-	@echo ... accert.i
-	@echo ... accert.s
 	@echo ... pdp_mem.obj
 	@echo ... pdp_mem.i
 	@echo ... pdp_mem.s

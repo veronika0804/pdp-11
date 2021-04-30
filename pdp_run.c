@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pdp11.h"
+#include "run.h"
+#include "funcs.h"
 
-word reg[8];
-byte b, r;
+ byte b, r;
 Arg ss, dd;
 word nn;
 char xx;
@@ -19,79 +20,6 @@ void print_flags() {
     trace("N = %d\n Z= %d\n C= %d\n", N, Z, C);
 }
 
-void do_halt() {
-    printf("THE END!!!\n");
-    print_regs();
-    exit(0);
-}
-void do_mov(word w) {
-    b = (w >> 15) & 1;
-    ss = get_mr(w >> 6);
-    dd = get_mr(w);
-    if (dd.type == 0)
-        reg[dd.adr] = ss.val;
-    else
-        if (b == 0)
-            w_write(dd.adr, ss.val);
-        else
-            b_write(dd.adr, (byte)(ss.val & 0xFF));
-    C = 0;
-    Z = (ss.val == 0);
-    N = (ss.val >> 15) & 1;
-    trace("\n");
-}
-void do_add(word w) {
-    b = (w >> 15) & 1;
-    ss = get_mr(w >> 6);
-    dd = get_mr(w);
-    if (dd.type == 0)
-        reg[dd.adr] = dd.val + ss.val;
-    else
-        if (b == 0)
-            w_write(dd.adr, dd.val + ss.val);
-        else
-            b_write(dd.adr, dd.val + ss.val);
-
-    Z = (dd.val + ss.val ==0);
-    N = ((dd.val + ss.val) >> 15) & 1;
-    C = ((dd.val + ss.val) >= MEM_SIZE);
-    trace("\n");
-}
-
-void sob(word w) {
-    r = (w >> 6) & 7;
-    nn = w & 63;
-    if (--reg[r] != 0)
-        pc = pc - 2 * nn;
-    trace("R%o %06o", r, pc);
-    trace("\n");
-}
-
-void br(word w) {
-    xx = (char)(w & 0377);
-    pc = pc + 2 * xx;
-    trace("%06o\n", pc);
-}
-
-void do_nothing(word w) {
-    trace("\n");
-}
-
-typedef struct {
-    word mask;
-    word opcode;
-    char * name;
-    void (*do_func)(word w);
-} Command;
-
-Command cmd[] = {
-        {0170000, 0010000, "mov", do_mov},
-        {0170000, 0060000, "add", do_add},
-        {0177777, 0000000, "halt", do_halt},
-        {0177000, 0077000, "sob", sob},
-        {0177400, 0000400, "br", br},
-        {0177777, 0177777, "nothing", do_nothing}
-};
 
 Arg get_mr(word w) {
     Arg res;
@@ -144,8 +72,21 @@ Arg get_mr(word w) {
 
     return res;
 }
+
+
+Command cmd[] = {
+        {0170000, 0010000, "mov", do_mov},
+        {0170000, 0060000, "add", do_add},
+        {0177777, 0000000, "halt", do_halt},
+        {0177000, 0077000, "sob", do_sob},
+        {0177400, 0000400, "br", do_br},
+        {0177777, 0177777, "nothing", do_nothing}
+};
+
+
 void run() {
     pc = 01000;
+    w_write(OSTAT, 0177777);
     while(1) {
         word w = w_read(pc);
         trace("%06o %06o: ", pc, w);
@@ -170,3 +111,4 @@ void run() {
         }
     }
 }
+

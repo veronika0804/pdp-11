@@ -80,28 +80,9 @@ CMakeFiles\pdp11.dir\pdp_mem.c.s: cmake_force
  /nologo $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) /FoNUL /FAs /FaCMakeFiles\pdp11.dir\pdp_mem.c.s /c D:\pdp11\pdp_mem.c
 <<
 
-CMakeFiles\pdp11.dir\accert.c.obj: CMakeFiles\pdp11.dir\flags.make
-CMakeFiles\pdp11.dir\accert.c.obj: ..\accert.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\pdp11\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/pdp11.dir/accert.c.obj"
-	C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @<<
- /nologo $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) /FoCMakeFiles\pdp11.dir\accert.c.obj /FdCMakeFiles\pdp11.dir\ /FS -c D:\pdp11\accert.c
-<<
-
-CMakeFiles\pdp11.dir\accert.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/pdp11.dir/accert.c.i"
-	C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe > CMakeFiles\pdp11.dir\accert.c.i @<<
- /nologo $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E D:\pdp11\accert.c
-<<
-
-CMakeFiles\pdp11.dir\accert.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/pdp11.dir/accert.c.s"
-	C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @<<
- /nologo $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) /FoNUL /FAs /FaCMakeFiles\pdp11.dir\accert.c.s /c D:\pdp11\accert.c
-<<
-
 CMakeFiles\pdp11.dir\pdp_run.c.obj: CMakeFiles\pdp11.dir\flags.make
 CMakeFiles\pdp11.dir\pdp_run.c.obj: ..\pdp_run.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\pdp11\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/pdp11.dir/pdp_run.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=D:\pdp11\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/pdp11.dir/pdp_run.c.obj"
 	C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\cl.exe @<<
  /nologo $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) /FoCMakeFiles\pdp11.dir\pdp_run.c.obj /FdCMakeFiles\pdp11.dir\ /FS -c D:\pdp11\pdp_run.c
 <<
@@ -121,18 +102,16 @@ CMakeFiles\pdp11.dir\pdp_run.c.s: cmake_force
 # Object files for target pdp11
 pdp11_OBJECTS = \
 "CMakeFiles\pdp11.dir\pdp_mem.c.obj" \
-"CMakeFiles\pdp11.dir\accert.c.obj" \
 "CMakeFiles\pdp11.dir\pdp_run.c.obj"
 
 # External object files for target pdp11
 pdp11_EXTERNAL_OBJECTS =
 
 pdp11.exe: CMakeFiles\pdp11.dir\pdp_mem.c.obj
-pdp11.exe: CMakeFiles\pdp11.dir\accert.c.obj
 pdp11.exe: CMakeFiles\pdp11.dir\pdp_run.c.obj
 pdp11.exe: CMakeFiles\pdp11.dir\build.make
 pdp11.exe: CMakeFiles\pdp11.dir\objects1.rsp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\pdp11\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable pdp11.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=D:\pdp11\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable pdp11.exe"
 	"D:\CLion 2020.3.3\bin\cmake\win\bin\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\pdp11.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100177~1.0\x86\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100177~1.0\x86\mt.exe --manifests  -- C:\PROGRA~2\MICROS~2\2017\COMMUN~1\VC\Tools\MSVC\1416~1.270\bin\Hostx86\x86\link.exe /nologo @CMakeFiles\pdp11.dir\objects1.rsp @<<
  /out:pdp11.exe /implib:pdp11.lib /pdb:D:\pdp11\cmake-build-debug\pdp11.pdb /version:0.0  /machine:X86 /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib 
 <<
