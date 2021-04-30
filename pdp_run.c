@@ -25,6 +25,7 @@ Arg get_mr(word w) {
     Arg res;
     int r = w & 7; //номер регистра
     int mode = (w >> 3) & 7; //номер моды
+    word n;
     switch(mode) {
         case 0:     // R3
             res.adr = r;
@@ -63,6 +64,51 @@ Arg get_mr(word w) {
                 }
                 trace("(R%o)+ ", r);
             }
+            break;
+        case 3:
+            res.adr = reg[r];
+            if (r == 7 || r == 6 || b == 0) {
+                res.adr = w_read((Adress) reg[r]);
+                res.val = w_read((Adress) res.adr);
+                reg[r] += 2;
+                trace("@#%o ", res.adr);
+            }
+            else {
+                res.adr = w_read((Adress) reg[r]);
+                res.val = b_read((Adress) res.adr);
+                reg[r] += 2;
+                trace("@(R%o)+", r);
+            }
+            break;
+        case 4:
+            if (r == 7 || r == 6 || b == 0) {
+                reg[r] -= 2;
+                res.adr = reg[r];
+                res.val = w_read(res.adr);
+            }
+            else {
+                reg[r]--;
+                res.adr = reg[r];
+                res.val = b_read(res.adr);
+            }
+            trace("-(R%d)", r);
+            break;
+
+        case 5:
+            trace ("@-(R%o)", r);
+            reg[r] -= 2;
+            res.adr = reg[r];
+            res.adr = w_read (res.adr);
+            break;
+        case 6:
+            n = w_read(pc);
+            pc += 2;
+            res.adr = reg[r] + n;
+            res.val = w_read(res.adr);
+            if (r == 7)
+                trace("%06o", res.adr);
+            else
+                trace("%o(R%o)", w_read(pc - 2), r);
             break;
         default:
             fprintf(stderr,
