@@ -1,10 +1,13 @@
 #include <stdio.h>
-#include <assert.h>
-#include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
+#include <assert.h>
 #include "pdp11.h"
+#include "run.h"
 
+byte mem[MEM_SIZE];
+word reg[8];
+byte trac;
 
 
 void trace(const char* format, ...) {
