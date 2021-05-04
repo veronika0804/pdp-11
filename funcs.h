@@ -10,3 +10,5 @@ void do_beq(word w);
 void do_bpl(word w);
 void do_clr(word w);
 void do_tst(word w);
+void do_jsr(word w);
+void do_rts(word w);
