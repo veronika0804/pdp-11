@@ -4,9 +4,37 @@
 #include "run.h"
 #include "pdp11.h"
 
+void push(byte r) {
+    trace("mov ");
+    do_mov(0010000 + (r << 6) + 046);
+}
+
+void pop(byte r) {
+    trace("mov ");
+    do_mov(0010000 + 02600 + r);
+}
+
+void do_jsr(word w) {
+    b = 0;
+    r = (w >> 6) & 7;
+    trace("R%o ", r);
+    dd = get_mr(w);
+    trace("\n");
+    word tmp = dd.adr;
+    push(r);
+    reg[r] = pc;
+    pc = tmp;
+}
+
+void do_rts(word w) {
+    r = w & 7;
+    trace("R%o\n", r);
+    pc = reg[r];
+    pop(r);
+}
 
 void do_halt(word w) {
-    printf("THE END!!!\n");
+    printf("\n\n----------halted----------\n");
     print_regs();
     exit(0);
 }
@@ -38,7 +66,7 @@ void do_add(word w) {
     else
         b_write(dd.adr, dd.val + ss.val);
 
-    Z = (dd.val + ss.val ==0);
+    Z = (dd.val + ss.val == 0);
     N = ((dd.val + ss.val) >> 15) & 1;
     C = ((dd.val + ss.val) >= MEM_SIZE);
     trace("\n");
@@ -128,6 +156,7 @@ void do_tst(word w) {
     C = 0;
     trace("\n");
 }
+
 
 void do_nothing(word w) {
     trace("\n");
