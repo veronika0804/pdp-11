@@ -14,11 +14,11 @@ void value(word* val1, word adr1, byte b) {
     if (b == 0)
         *val1 = w_read(adr1);
     else
-        *val1 = (b_read(adr1) >> 7) * 0177400 | b_read(adr1);
+        *val1 = ((b_read(adr1) >> 7) * 0177400 | b_read(adr1));
 }
 
 void print_regs() {
-    for (int i= 0; i < 8; i++)
+    for (int i = 0; i < 8; i++)
         trace("R%o = %06o\n", i, reg[i]);
     trace("\n");
 }
@@ -101,8 +101,8 @@ Arg get_mr(word w) {
             res.type = 1;
             trace ("@-(R%o)", r);
             reg[r] -= 2;
-            res.adr = reg[r];
-            res.adr = w_read (res.adr);
+            res.adr = w_read(reg[r]);
+            res.val = w_read (res.adr);
             break;
         case 6:
             res.type = 1;
