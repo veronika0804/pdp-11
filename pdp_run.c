@@ -10,6 +10,13 @@ word nn;
 char xx;
 byte N, Z, C;
 
+void value(word* val1, word adr1, byte b) {
+    if (b == 0)
+        *val1 = w_read(adr1);
+    else
+        *val1 = (b_read(adr1) >> 7) * 0177400 | b_read(adr1);
+}
+
 void print_regs() {
     for (int i= 0; i < 8; i++)
         trace("R%o = %06o\n", i, reg[i]);
@@ -25,18 +32,18 @@ Arg get_mr(word w) {
     Arg res;
     int r = w & 7; //номер регистра
     int mode = (w >> 3) & 7; //номер моды
-    word n;
+
     switch(mode) {
         case 0:     // R3
+            res.type = 0;
             res.adr = r;
             res.val = reg[r];
-            res.type = 0;
             trace("R%o ", r);
             break;
         case 1:     // (R3)
             res.type = 1;
             res.adr = reg[r];
-            res.val = b ? b_read(res.adr) : w_read(res.adr);   // b_read
+            value(&(res.val), res.adr, b);   // b_read
             trace("(R%o) ", r);
             break;
         case 2:               // (R3)+   #3
@@ -45,9 +52,9 @@ Arg get_mr(word w) {
                 res.adr = reg[r];
                 res.val = w_read(res.adr);   // b_read
                 reg[r] += 2;
-                trace("#%o ", res.val);
+                trace("#%06o ", res.val);
             }
-            else if ( r == 6) {
+            else if (r == 6) {
                 res.adr = reg[r];
                 res.val = w_read(res.adr);   // b_read
                 reg[r] += 2;
@@ -66,21 +73,17 @@ Arg get_mr(word w) {
             }
             break;
         case 3:
-            res.adr = reg[r];
-            if (r == 7 || r == 6 || b == 0) {
-                res.adr = w_read((Adress) reg[r]);
-                res.val = w_read((Adress) res.adr);
-                reg[r] += 2;
-                trace("@#%o ", res.adr);
-            }
-            else {
-                res.adr = w_read((Adress) reg[r]);
-                res.val = b_read((Adress) res.adr);
-                reg[r] += 2;
-                trace("@(R%o)+", r);
-            }
+            res.type = 1;
+            res.adr = w_read(reg[r]);
+            value(&(res.val), res.adr, b);
+            reg[r] += 2;
+            if (r == 7)
+                trace("@#%o", res.adr);
+            else
+                trace("@(R%o)+ ", r);
             break;
         case 4:
+            res.type = 1;
             if (r == 7 || r == 6 || b == 0) {
                 reg[r] -= 2;
                 res.adr = reg[r];
@@ -95,20 +98,32 @@ Arg get_mr(word w) {
             break;
 
         case 5:
+            res.type = 1;
             trace ("@-(R%o)", r);
             reg[r] -= 2;
             res.adr = reg[r];
             res.adr = w_read (res.adr);
             break;
         case 6:
-            n = w_read(pc);
+            res.type = 1;
             pc += 2;
-            res.adr = reg[r] + n;
-            res.val = w_read(res.adr);
+            res.adr = reg[r] + w_read(pc - 2);
+            value(&(res.val), res.adr, b);
             if (r == 7)
                 trace("%06o", res.adr);
             else
                 trace("%o(R%o)", w_read(pc - 2), r);
+            break;
+        case 7:
+            res.type = 1;
+            pc += 2;
+            res.adr = reg[r] + w_read(pc - 2);
+            res.adr = w_read(res.adr);
+            value(&(res.val), res.adr, b);
+            if (r == 7)
+                trace("@%06o", reg[r] + w_read(pc - 2));
+            else
+                trace("@%o(R%o)", w_read(pc - 2), r);
             break;
         default:
             fprintf(stderr,
@@ -121,7 +136,7 @@ Arg get_mr(word w) {
 
 
 Command cmd[] = {
-        {0170000, 0010000, "mov", do_mov},
+        {0070000, 0010000, "movb", do_mov},
         {0170000, 0060000, "add", do_add},
         {0177777, 0000000, "halt", do_halt},
         {0177000, 0077000, "sob", do_sob},
@@ -131,6 +146,8 @@ Command cmd[] = {
         {0177400, 0100000, "bpl", do_bpl},
         {0177700, 0005000, "clrb", do_clr},
         {0077700, 0005700, "TSTb", do_tst},
+        {0177000, 0004000, "JSR", do_jsr},
+        {0177770, 0000200, "RTS", do_rts},
         {0177777, 0177777, "nothing", do_nothing}
 };
 
