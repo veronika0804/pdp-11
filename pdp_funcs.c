@@ -90,15 +90,13 @@ void do_br(word w) {
 void do_bpl(word w) {
     if (N == 0)
         do_br(w);
-    else
-        trace("FALSE\n");
+        trace("\n");
 }
 
 void do_beq(word w) {
     if (Z == 1)
         do_br(w);
-    else
-        trace("FALSE\n");
+        trace("\n");
 }
 
 void do_cmp(word w) {
