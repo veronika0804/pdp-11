@@ -17,6 +17,7 @@ void trace(const char* format, ...) {
         va_start(ap, format);
         vprintf(format, ap);
         va_end(ap);
+
     }
 }
 
@@ -55,24 +56,24 @@ void test_mem() {
     assert(bres2 == 0x0b);
 }
 
-word w_read(Adress a) {
-    word w = ((word)mem[a+1]) << 8;
+word w_read(Adress adr) {              //читаем слово по адресу adr
+    word res = ((word)mem[adr+1]) << 8;
     //printf("w = %x\n", w);
-    w = w | mem[a];
-    return w;
+    res = res | mem[adr];
+    return res;
 }
-void b_write(Adress adr, byte b) {
-    mem[adr]=b;
+void b_write(Adress adr, byte b) {   //пишем байт b по адресу adr
+    mem[adr] = b;
     if (adr == ODATA)
         printf("%c", b);
 }
-byte b_read(Adress adr) {
+byte b_read(Adress adr) {            //читаем байт по адресу adr
     return mem[adr];
 }
 
-void w_write(Adress adr, word w) {
-    mem[adr] = (byte)(w & 0xFF);
-    mem[adr + 1] = (byte)((w >> 8) & 0xFF);
+void w_write(Adress adr, word w) {   //пишем слово по адресу adr
+    mem[adr] = w & 0x00FF;
+    mem[adr + 1] = (w >> 8) & 0x00FF;
     if (adr == ODATA)
         printf("%c", w);
 }
@@ -94,19 +95,21 @@ void load_file(const char* filename) {
             b_write(a + i, b);
         }
     }
-
+    //mem_dump(01000, n);
     fclose(input_file);
 }
 
 void mem_dump(Adress start, word n) {
+    printf("-----------------------------mem_dump-----------------------------\n");
     for (Adress i = 0; i <= n; i += 2) {
-        trace("%06o : %06o\n", start + i * 2 , w_read(start + i*2));
+        trace("%06o : %06o\n", start + i, w_read(start + i));
+        printf("-----------------------------mem_dump-----------------------------\n");
     }
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     if (argc == 1) {
-        printf("Трассировка -t -T \n");
+        printf("Трассировка: ./(...) -t -T  <path>\n");
         return 0;
     }
     test_mem();
